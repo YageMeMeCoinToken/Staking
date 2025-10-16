@@ -1,0 +1,892 @@
+Sistema de Staking Completo para YGCT
+Te voy a diseñar TODO el sistema, desde lo más básico hasta la versión profesional.
+
+PARTE 1: ARQUITECTURA DEL SISTEMA
+Opción A: MVP Manual (Implementar ESTA SEMANA - $0 costo)
+Para empezar sin smart contracts ni código complejo.
+Stack Tecnológico:
+Frontend: HTML/CSS/JS (lo que ya tienes)
+Backend: Google Sheets + Google Apps Script
+Blockchain: Solo para enviar tokens (usar Disperse.app)
+Wallet: MetaMask integration (Web3.js básico)
+```
+
+#### **Flujo del Usuario:**
+```
+1. Usuario conecta wallet en tu sitio
+2. Completa formulario de staking
+3. Envía YGCT a tu staking wallet
+4. Tu verificas manualmente la transacción
+5. Registras en Google Sheet
+6. Calculas rewards diariamente
+7. Envías rewards semanalmente/mensualmente
+
+Frontend: Página de Staking (HTML Completo)
+html<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YGCT Staking - YageCoin</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            color: #666;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .staking-tiers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .tier-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tier-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .tier-card.featured {
+            border: 3px solid #ffd700;
+            transform: scale(1.05);
+        }
+        
+        .tier-card.featured::before {
+            content: "BEST VALUE";
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: #ffd700;
+            color: #000;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .tier-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .tier-card .apy {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        
+        .tier-card .lock-period {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #666;
+        }
+        
+        .tier-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+        }
+        
+        .tier-card ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+        
+        .tier-card ul li:before {
+            content: "✓ ";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .tier-card button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .tier-card button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .tier-card button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .wallet-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            margin-bottom: 40px;
+        }
+        
+        .wallet-connect-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .wallet-connect-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .connected-wallet {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .modal-close:hover {
+            color: #333;
+        }
+        
+        .form-group {
+            margin: 20px 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .calculator {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            margin-top: 40px;
+        }
+        
+        .calculator h2 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .calc-result {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .calc-result h3 {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .calc-result .amount {
+            font-size: 48px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💎 YGCT Staking</h1>
+            <p>Stake your tokens, earn passive rewards</p>
+        </div>
+
+        <!-- Platform Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Value Locked</h3>
+                <div class="value" id="tvl">$0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Stakers</h3>
+                <div class="value" id="stakers">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Rewards Distributed</h3>
+                <div class="value" id="rewards">0 YGCT</div>
+            </div>
+            <div class="stat-card">
+                <h3>Your Staked</h3>
+                <div class="value" id="userStaked">0 YGCT</div>
+            </div>
+        </div>
+
+        <!-- Wallet Connection -->
+        <div class="wallet-section">
+            <h2>Connect Your Wallet</h2>
+            <button class="wallet-connect-btn" id="connectWallet" onclick="connectWallet()">
+                🦊 Connect MetaMask
+            </button>
+            <div class="connected-wallet" id="walletInfo" style="display: none;">
+                <div>
+                    <strong>Connected:</strong>
+                    <span id="walletAddress"></span>
+                </div>
+                <div>
+                    <strong>Balance:</strong>
+                    <span id="ygctBalance">0 YGCT</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staking Tiers -->
+        <div class="staking-tiers">
+            <!-- Flexible Staking -->
+            <div class="tier-card">
+                <h3>🌱 Flexible</h3>
+                <div class="apy">20% APY</div>
+                <div class="lock-period">No Lock Period</div>
+                <ul>
+                    <li>Withdraw anytime</li>
+                    <li>Daily rewards</li>
+                    <li>Perfect for beginners</li>
+                    <li>1.5x platform multiplier</li>
+                </ul>
+                <button onclick="openStakeModal('flexible', 20)">Stake Now</button>
+            </div>
+
+            <!-- 3-Month Lock -->
+            <div class="tier-card featured">
+                <h3>🔥 Growth</h3>
+                <div class="apy">50% APY</div>
+                <div class="lock-period">90 Days Lock</div>
+                <ul>
+                    <li>Higher rewards</li>
+                    <li>2x platform multiplier</li>
+                    <li>Priority support</li>
+                    <li>Exclusive airdrops</li>
+                </ul>
+                <button onclick="openStakeModal('growth', 50)">Stake Now</button>
+            </div>
+
+            <!-- 6-Month Lock -->
+            <div class="tier-card">
+                <h3>💎 Diamond</h3>
+                <div class="apy">100% APY</div>
+                <div class="lock-period">180 Days Lock</div>
+                <ul>
+                    <li>Maximum rewards</li>
+                    <li>3x platform multiplier</li>
+                    <li>VIP status</li>
+                    <li>Governance rights</li>
+                    <li>Premium features access</li>
+                </ul>
+                <button onclick="openStakeModal('diamond', 100)">Stake Now</button>
+            </div>
+        </div>
+
+        <!-- Staking Calculator -->
+        <div class="calculator">
+            <h2>📊 Rewards Calculator</h2>
+            <div class="form-group">
+                <label>Amount to Stake (YGCT)</label>
+                <input type="number" id="calcAmount" placeholder="1000" oninput="calculateRewards()">
+            </div>
+            <div class="form-group">
+                <label>Staking Period</label>
+                <select id="calcPeriod" onchange="calculateRewards()" style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;">
+                    <option value="flexible">Flexible (20% APY)</option>
+                    <option value="growth">3 Months (50% APY)</option>
+                    <option value="diamond">6 Months (100% APY)</option>
+                </select>
+            </div>
+            <div class="calc-result" id="calcResult" style="display: none;">
+                <h3>Estimated Rewards</h3>
+                <div class="amount" id="rewardAmount">0 YGCT</div>
+                <p style="margin-top: 15px; opacity: 0.9;">Total after staking period: <span id="totalAmount">0 YGCT</span></p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Stake Modal -->
+    <div class="modal" id="stakeModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeStakeModal()">&times;</span>
+            <h2>Stake YGCT Tokens</h2>
+            <p id="modalTierInfo"></p>
+            
+            <div class="info-box">
+                <strong>⚠️ Important:</strong> Make sure you understand the lock period before staking.
+            </div>
+
+            <form id="stakeForm" onsubmit="submitStake(event)">
+                <div class="form-group">
+                    <label>Your Wallet Address</label>
+                    <input type="text" id="stakeWallet" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount to Stake (YGCT)</label>
+                    <input type="number" id="stakeAmount" placeholder="100" min="1" required>
+                    <small>Minimum: 100 YGCT</small>
+                </div>
+
+                <div class="info-box">
+                    <h4>How to Stake (Manual Process):</h4>
+                    <ol style="margin: 10px 0; padding-left: 20px;">
+                        <li>Fill in the amount above</li>
+                        <li>Click "Copy Staking Address"</li>
+                        <li>Send exactly that amount of YGCT to the address</li>
+                        <li>Paste your transaction hash below</li>
+                        <li>Submit for verification</li>
+                    </ol>
+                </div>
+
+                <div class="form-group">
+                    <label>Staking Address (Send YGCT here)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="stakingAddress" value="0xYOUR_STAKING_WALLET_ADDRESS_HERE" readonly style="flex: 1;">
+                        <button type="button" onclick="copyStakingAddress()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Copy</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Transaction Hash (After sending)</label>
+                    <input type="text" id="txHash" placeholder="0x..." required>
+                    <small>Paste the transaction hash from your wallet</small>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" required>
+                        I understand the lock period and risks
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Stake Request</button>
+            </form>
+
+            <div class="success-box" id="successMessage" style="display: none;">
+                <h3>✅ Stake Request Submitted!</h3>
+                <p>We'll verify your transaction within 24 hours and activate your staking rewards.</p>
+                <p>You'll receive an email confirmation.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let web3;
+        let userAccount;
+        let currentTier;
+        let currentAPY;
+
+        // YGCT Contract Address (CHANGE THIS)
+        const YGCT_CONTRACT_BSC = '0xYOUR_YGCT_CONTRACT_ADDRESS';
+        const STAKING_WALLET = '0xYOUR_STAKING_WALLET_ADDRESS';
+
+        // Simplified ERC20 ABI (just for balance)
+        const ERC20_ABI = [
+            {
+                "constant": true,
+                "inputs": [{"name": "_owner", "type": "address"}],
+                "name": "balanceOf",
+                "outputs": [{"name": "balance", "type": "uint256"}],
+                "type": "function"
+            }
+        ];
+
+        // Connect Wallet
+        async function connectWallet() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    // Request account access
+                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                    userAccount = accounts[0];
+                    
+                    // Initialize web3
+                    web3 = new Web3(window.ethereum);
+                    
+                    // Display wallet info
+                    document.getElementById('walletAddress').textContent = 
+                        userAccount.substring(0, 6) + '...' + userAccount.substring(38);
+                    document.getElementById('walletInfo').style.display = 'flex';
+                    document.getElementById('connectWallet').style.display = 'none';
+                    
+                    // Get YGCT balance
+                    await updateBalance();
+                    
+                    // Update stake form
+                    document.getElementById('stakeWallet').value = userAccount;
+                    
+                } catch (error) {
+                    console.error('Error connecting wallet:', error);
+                    alert('Failed to connect wallet. Please try again.');
+                }
+            } else {
+                alert('MetaMask is not installed. Please install MetaMask to use staking features.');
+                window.open('https://metamask.io/download/', '_blank');
+            }
+        }
+
+        // Update YGCT Balance
+        async function updateBalance() {
+            try {
+                const contract = new web3.eth.Contract(ERC20_ABI, YGCT_CONTRACT_BSC);
+                const balance = await contract.methods.balanceOf(userAccount).call();
+                const balanceInYGCT = web3.utils.fromWei(balance, 'ether');
+                document.getElementById('ygctBalance').textContent = 
+                    parseFloat(balanceInYGCT).toFixed(2) + ' YGCT';
+            } catch (error) {
+                console.error('Error fetching balance:', error);
+                document.getElementById('ygctBalance').textContent = '0 YGCT';
+            }
+        }
+
+        // Open Stake Modal
+        function openStakeModal(tier, apy) {
+            if (!userAccount) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            
+            currentTier = tier;
+            currentAPY = apy;
+            
+            const tierNames = {
+                'flexible': 'Flexible Staking (No Lock)',
+                'growth': '3-Month Lock Staking',
+                'diamond': '6-Month Lock Staking'
+            };
+            
+            document.getElementById('modalTierInfo').textContent = 
+                `You're staking in: ${tierNames[tier]} - ${apy}% APY`;
+            
+            document.getElementById('stakeModal').classList.add('active');
+            document.getElementById('stakingAddress').value = STAKING_WALLET;
+        }
+
+        // Close Modal
+        function closeStakeModal() {
+            document.getElementById('stakeModal').classList.remove('active');
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('stakeForm').style.display = 'block';
+        }
+
+        // Copy Staking Address
+        function copyStakingAddress() {
+            const address = document.getElementById('stakingAddress');
+            address.select();
+            document.execCommand('copy');
+            alert('Staking address copied to clipboard!');
+        }
+
+        // Submit Stake
+        async function submitStake(event) {
+            event.preventDefault();
+            
+            const amount = document.getElementById('stakeAmount').value;
+            const txHash = document.getElementById('txHash').value;
+            
+            if (amount < 100) {
+                alert('Minimum stake amount is 100 YGCT');
+                return;
+            }
+            
+            // Prepare data for Google Form
+            const formData = {
+                wallet: userAccount,
+                amount: amount,
+                tier: currentTier,
+                apy: currentAPY,
+                txHash: txHash,
+                timestamp: new Date().toISOString(),
+                network: 'BSC' // or detect automatically
+            };
+            
+            // Send to Google Form (you'll create this)
+            // For now, we'll use a placeholder
+            const googleFormURL = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse';
+            
+            try {
+                // Show success message
+                document.getElementById('stakeForm').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // In production, send to Google Form
+                console.log('Stake data:', formData);
+                
+                // Could also send to your backend/email
+                // await fetch('/api/stake', { method: 'POST', body: JSON.stringify(formData) });
+                
+            } catch (error) {
+                console.error('Error submitting stake:', error);
+                alert('Failed to submit stake request. Please contact support.');
+            }
+        }
+
+        // Calculate Rewards
+        function calculateRewards() {
+            const amount = parseFloat(document.getElementById('calcAmount').value) || 0;
+            const period = document.getElementById('calcPeriod').value;
+            
+            if (amount === 0) {
+                document.getElementById('calcResult').style.display = 'none';
+                return;
+            }
+            
+            let apy, days;
+            switch(period) {
+                case 'flexible':
+                    apy = 0.20;
+                    days = 365;
+                    break;
+                case 'growth':
+                    apy = 0.50;
+                    days = 90;
+                    break;
+                case 'diamond':
+                    apy = 1.00;
+                    days = 180;
+                    break;
+            }
+            
+            const reward = amount * apy * (days / 365);
+            const total = amount + reward;
+            
+            document.getElementById('rewardAmount').textContent = reward.toFixed(2) + ' YGCT';
+            document.getElementById('totalAmount').textContent = total.toFixed(2) + ' YGCT';
+            document.getElementById('calcResult').style.display = 'block';
+        }
+
+        // Update platform stats (you'll fetch from Google Sheets or API)
+        function updateStats() {
+            // Placeholder - replace with real data
+            document.getElementById('tvl').textContent = '$12,450';
+            document.getElementById('stakers').textContent = '127';
+            document.getElementById('rewards').textContent = '45,230 YGCT';
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            updateStats();
+            
+            // Check if wallet is already connected
+            if (typeof window.ethereum !== 'undefined') {
+                ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+                    if (accounts.length > 0) {
+                        connectWallet();
+                    }
+                });
+            }
+        });
+
+        // Listen for account changes
+        if (typeof window.ethereum !== 'undefined') {
+            ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length > 0) {
+                    connectWallet();
+                } else {
+                    location.reload();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+```
+
+---
+
+### **Backend: Google Sheet Structure**
+
+**Crea un Google Sheet con estas columnas:**
+```
+Columna A: Timestamp
+Columna B: Wallet Address
+Columna C: Amount Staked
+Columna D: Tier (flexible/growth/diamond)
+Columna E: APY (%)
+Columna F: TX Hash
+Columna G: Network (BSC/Polygon/etc)
+Columna H: Start Date
+Columna I: End Date (calculated)
+Columna J: Daily Reward (calculated)
+Columna K: Total Rewards Earned (calculated)
+Columna L: Status (Pending/Active/Completed)
+Columna M: Rewards Paid (Yes/No)
+Columna N: Last Payment Date
+```
+
+**Fórmulas Automáticas:**
+```
+Columna I (End Date):
+=IF(D2="flexible", "", IF(D2="growth", H2+90, H2+180))
+
+Columna J (Daily Reward):
+=C2 * (E2/100) / 365
+
+Columna K (Total Rewards Earned):
+=IF(L2="Active", J2 * (TODAY() - H2), IF(L2="Completed", J2 * (I2 - H2), 0))
+
+Google Form para Submissions
+Crea un Google Form con estos campos:
+
+Wallet Address (Short answer)
+Amount Staked (Number)
+Staking Tier (Multiple choice: Flexible, Growth, Diamond)
+Transaction Hash (Short answer)
+Network (Multiple choice: BSC, Polygon, Avalanche)
+Email (Optional - for notifications)
+
+Conecta el Form al Sheet:
+
+Responses → Link to existing spreadsheet
+Elige tu staking sheet
+
+
+Google Apps Script: Automatización
+En tu Google Sheet:
+
+Extensions → Apps Script
+Pega este código:
+
+javascriptfunction onFormSubmit(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Stakes');
+  const lastRow = sheet.getLastRow();
+  
+  // Get the submitted data
+  const walletAddress = e.values[1]; // Column B
+  const amount = e.values[2]; // Column C
+  const tier = e.values[3]; // Column D
+  const txHash = e.values[5]; // Column F
+  const email = e.values[6]; // Column G (if you collected it)
+  
+  // Set APY based on tier
+  let apy;
+  switch(tier.toLowerCase()) {
+    case 'flexible':
+      apy = 20;
+      break;
+    case 'growth':
+      apy = 50;
+      break;
+    case 'diamond':
+      apy = 100;
+      break;
+    default:
+      apy = 20;
+  }
+  
+  // Set the APY in column E
+  sheet.getRange(lastRow, 5).setValue(apy);
+  
+  // Set start date (today)
+  sheet.getRange(lastRow, 8).setValue(new Date());
+  
+  // Set status to "Pending"
+  sheet.getRange(lastRow, 12).setValue('Pending');
+  
+  // Send confirmation email
+  if (email) {
+    sendConfirmationEmail(email, amount, tier, apy);
+  }
+  
+  // Send notification to you
+  sendAdminNotification(walletAddress, amount, tier, txHash);
+}
+
+function sendConfirmationEmail(email, amount, tier, apy) {
+  const subject = '✅ YGCT Staking Request Received';
+  const body = `
+    Thank you for staking with YageCoin!
+    
+    Your staking request details:
+    - Amount: ${amount} YGCT
+    - Tier: ${tier}
+    - APY: ${apy}%
+    
+    We'll verify your transaction within 24 hours and activate your rewards.
+    
+    Track your staking: https://yagecoin.space/dashboard
+    
+    Best regards,
+    YageCoin Team
+  `;
+  
+  MailApp.sendEmail(email, subject, body);
+}
+
+function sendAdminNotification(wallet, amount, tier, txHash) {
+  const adminEmail = 'your-email@example.com';
+  const subject = '🚨 New Staking Request';
+  const body = `
+    New staking request received:
+    
+    Wallet: ${wallet}
+    Amount: ${amount}RetryClaude does not have the ability to run the code it generates yet.YE
