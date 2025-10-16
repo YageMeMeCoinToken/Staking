@@ -1,0 +1,436 @@
+PARTE 1: Crear Pools de Liquidez Paso a Paso
+Preparación Inicial (Antes de Crear Pools)
+Necesitarás:
+
+Tokens YGCT desplegados en cada chain
+Wallet con fondos nativos para gas (BNB, MATIC, AVAX, etc.)
+Stablecoins o tokens nativos para parear (USDT, USDC, BNB, etc.)
+
+
+CHAIN 1: BSC (PancakeSwap) - La Más Popular
+Paso 1: Preparar Fondos
+Necesitas:
+- X cantidad de YGCT (ej: 10,000 tokens)
+- $100-200 en BUSD o USDT
+- ~$2-5 en BNB para gas fees
+```
+
+#### **Paso 2: Ir a PancakeSwap**
+1. Ve a **pancakeswap.finance**
+2. Conecta tu wallet (MetaMask, Trust Wallet, etc.)
+3. Asegúrate estar en BSC network
+
+#### **Paso 3: Agregar Token YGCT**
+1. Click en **Trade** → **Liquidity**
+2. Click **Add Liquidity**
+3. En primer token: selecciona BUSD/USDT
+4. En segundo token: click **Select Currency**
+5. Pega la **contract address de YGCT en BSC**
+6. Aparecerá "Import" → click para importar
+7. Acepta el warning
+
+#### **Paso 4: Definir Ratio de Precio**
+
+**IMPORTANTE:** El primer pool define el precio inicial
+```
+Ejemplo de ratio inicial:
+- 10,000 YGCT = $100 USDT
+- Esto hace 1 YGCT = $0.01
+
+O si quieres precio más bajo:
+- 10,000 YGCT = $50 USDT  
+- Esto hace 1 YGCT = $0.005
+```
+
+**Mi recomendación:** Empezar entre $0.001 - $0.01 por token
+
+#### **Paso 5: Agregar Liquidez**
+1. Ingresa cantidad de USDT (ej: $100)
+2. El sistema auto-calcula cuántos YGCT necesitas
+3. Click **Enable YGCT** (aprobar contrato)
+4. Espera confirmación de transacción
+5. Click **Supply**
+6. Confirma en wallet
+7. Espera confirmación
+
+#### **Paso 6: Recibir LP Tokens**
+- Recibirás **YGCT-USDT LP tokens**
+- ESTOS SON TU PRUEBA de liquidez
+- NO los pierdas o no podrás retirar liquidez
+
+#### **Paso 7: Verificar Pool**
+1. Ve a PancakeSwap → Liquidity
+2. Deberías ver tu pool YGCT/USDT
+3. Copia el **pool address** para promocionar
+
+---
+
+### **CHAIN 2: Polygon (QuickSwap)**
+
+#### **Pasos Similares con Diferencias:**
+
+**Paso 1: Bridge fondos a Polygon**
+- Usa tu propio bridge para mover USDC a Polygon
+- Asegura tener MATIC para gas (~$2-3)
+
+**Paso 2: QuickSwap**
+1. Ve a **quickswap.exchange**
+2. Conecta wallet + switch a Polygon network
+3. Add Liquidity → USDC/YGCT pair
+
+**Ventajas Polygon:**
+- Gas fees MUY baratos ($0.01-0.10)
+- Puedes crear pool con menos capital ($50-100)
+- Comunidad gaming/NFT activa
+
+**Liquidez Recomendada:**
+```
+5,000 YGCT + $50 USDC
+o
+10,000 YGCT + $100 USDC
+```
+
+---
+
+### **CHAIN 3: Avalanche (Trader Joe)**
+
+**Paso 1: Bridge a Avalanche**
+- Usa Avalanche Bridge o tu propio bridge
+- Necesitas AVAX para gas (~$3-5)
+
+**Paso 2: Trader Joe**
+1. **traderjoexyz.com**
+2. Pool → Add Liquidity
+3. Pair: USDC/YGCT
+
+**Ventajas Avalanche:**
+- Transacciones rápidas
+- Buena comunidad DeFi
+- Menos saturado que BSC
+
+**Liquidez Recomendada:**
+```
+5,000-10,000 YGCT + $75-150 USDC
+```
+
+---
+
+### **CHAIN 4: Solana (Raydium)**
+
+**⚠️ Solana es DIFERENTE (no EVM)**
+
+**Paso 1: Preparación**
+- Usa **Phantom Wallet**
+- Necesitas SOL para fees (~$2-5)
+- Tokens YGCT desplegados en Solana
+
+**Paso 2: Raydium**
+1. **raydium.io**
+2. Connect Phantom Wallet
+3. Pools → Create Pool
+
+**Paso 3: Create Market (IMPORTANTE EN SOLANA)**
+Antes de pool, necesitas crear Serum Market:
+1. Ve a **Serum DEX** o usa Raydium's tool
+2. Create Market: YGCT/USDC
+3. Cuesta ~0.3 SOL crear market
+
+**Paso 4: Agregar Liquidez**
+1. Select YGCT/USDC market
+2. Add liquidity
+3. Define ratio de precio
+
+**Liquidez Recomendada:**
+```
+10,000 YGCT + $100 USDC
+(Solana tiene mucha competencia, necesita más liquidez)
+```
+
+---
+
+### **CHAINS 5-8: Optimism, Fantom, Cronos, Gnosis**
+
+**Estrategia para Chains Secundarias:**
+
+**No agregues liquidez inmediatamente en TODAS**
+
+Prioriza así:
+1. **BSC** (más usuarios) - $150-200
+2. **Polygon** (barato, mucha actividad) - $100-150
+3. **Avalanche** (buena comunidad DeFi) - $75-100
+4. **Solana** (diferente ecosistema) - $100
+
+**Chains secundarias (agregar después):**
+- Optimism (Velodrome)
+- Fantom (SpookySwap)
+- Cronos (VVS Finance)
+- Gnosis (Honeyswap)
+
+**Por cada una:** $50-75 es suficiente inicialmente
+
+---
+
+### **⚠️ SEGURIDAD: Lock Liquidity**
+
+**MUY IMPORTANTE para credibilidad:**
+
+#### **Usar Unicrypt o Team.Finance**
+
+**Ejemplo en BSC:**
+1. Ve a **app.unicrypt.network**
+2. Select **Lock Tokens**
+3. Conecta wallet
+4. Pega tu **LP token address** (YGCT-USDT LP)
+5. Define lock period:
+   - Mínimo: 6 meses
+   - Recomendado: 12 meses
+   - Mejor: 24 meses
+6. Paga el fee (~$100-200 en BNB)
+7. Confirma lock
+
+**Beneficios:**
+- ✅ No puedes hacer "rug pull"
+- ✅ Investors confían más
+- ✅ CoinGecko/CMC valoran esto
+- ✅ Puedes promocionar "Locked Liquidity"
+
+**Promoción:**
+```
+"🔒 YGCT Liquidity is LOCKED for 12 months
+
+✅ Verified on Unicrypt
+✅ Team can't remove liquidity
+✅ Safe for investors
+
+View lock: [unicrypt link]"
+```
+
+---
+
+### **Calculadora de Liquidez Mínima**
+```
+Para empezar decentemente necesitas:
+
+BSC:           $200 liquidez
+Polygon:       $100 liquidez
+Avalanche:     $100 liquidez
+---------------------------------
+TOTAL:         $400 mínimo
+
+Con $400 puedes:
+- Tener presencia en 3 chains principales
+- Listing en CoinGecko/CMC
+- Trading básico funcional
+- Lock parcial de liquidez
+
+Ideal: $800-1000 total en 5-6 chains
+```
+
+---
+
+## PARTE 2: Scripts para Campañas de Airdrop
+
+### **Sistema de Airdrop Automatizado**
+
+#### **Opción 1: Usar Plataforma Existente (Más Fácil)**
+
+**TaskOn (taskOn.xyz) - RECOMENDADO**
+
+**Configuración:**
+```
+1. Crea cuenta en TaskOn
+2. Create New Campaign
+3. Setup:
+   - Campaign Name: "YGCT Genesis Airdrop"
+   - Duration: 7-14 días
+   - Total Reward Pool: 50,000 YGCT
+   - Winner Selection: FCFS o Lottery
+```
+
+**Tareas que Puedes Configurar:**
+```
+Social Tasks:
+✓ Follow Twitter [10 YGCT]
+✓ Retweet + Tag 3 friends [25 YGCT]
+✓ Join Telegram [15 YGCT]
+✓ Join Discord [15 YGCT]
+
+On-Chain Tasks:
+✓ Hold minimum 0.01 BNB [10 YGCT]
+✓ Complete 1 bridge on YageCoin [100 YGCT]
+✓ Add liquidity to YGCT pool [200 YGCT]
+
+Bonus Tasks:
+✓ Refer 3 friends [150 YGCT]
+✓ Create content (tweet/video) [500 YGCT]
+```
+
+---
+
+#### **Opción 2: Sistema Manual (Más Control)**
+
+**Script de Tracking Manual:**
+
+**Google Sheets Template:**
+```
+Columna A: Wallet Address
+Columna B: Twitter Handle
+Columna C: Telegram Username
+Columna D: Tasks Completed
+Columna E: YGCT Earned
+Columna F: Claim Status
+Columna G: TX Hash (when sent)
+```
+
+**Google Form para Recolectar Data:**
+```
+Pregunta 1: BSC Wallet Address (0x...)
+Pregunta 2: Twitter Username
+Pregunta 3: Telegram Username
+Pregunta 4: Which tasks did you complete?
+  □ Followed Twitter
+  □ Retweeted + Tagged friends
+  □ Joined Telegram
+  □ Completed a bridge
+  □ Other: _______
+
+Pregunta 5: Screenshot of completed tasks (upload)
+```
+
+---
+
+#### **Smart Contract Simple para Airdrop (BSC)**
+
+**Usar Disperse.app (Más fácil que código):**
+
+1. Ve a **disperse.app**
+2. Conecta wallet con fondos YGCT
+3. Selecciona BSC network
+4. Formato de envío:
+```
+0xAddress1,100
+0xAddress2,50
+0xAddress3,200
+0xAddress4,100
+```
+5. Click **Approve** → **Disperse**
+6. Confirma transacción
+7. Todos reciben tokens en 1 TX
+
+**Ventajas:**
+- Envía a 200+ addresses en 1 transacción
+- Ahorra gas significativo
+- Simple de usar
+
+---
+
+### **Template Completo de Airdrop Campaign**
+
+#### **Tweet de Lanzamiento:**
+```
+🎁 $YGCT GENESIS AIRDROP IS LIVE! 🎁
+
+Giving away 100,000 YGCT tokens to our early supporters!
+
+How to participate:
+1️⃣ Follow @YageCoin
+2️⃣ ❤️ + RT this tweet
+3️⃣ Tag 3 crypto friends
+4️⃣ Join our Telegram: [link]
+5️⃣ Complete form: [Google Form/TaskOn]
+
+BONUS TASKS:
+🔸 Complete a bridge = 100 YGCT extra
+🔸 Refer friends = 50 YGCT each
+
+YGCT holders get 50% discount on all bridge fees!
+
+⏰ Airdrop ends in 7 days
+📊 Limited to first 1,000 participants
+
+#Airdrop #YGCT #Crypto #DeFi
+```
+
+---
+
+#### **Telegram Announcement:**
+```
+🚀 OFFICIAL ANNOUNCEMENT 🚀
+
+The YGCT Genesis Airdrop is NOW LIVE!
+
+💰 Total Prize Pool: 100,000 YGCT
+👥 Max Participants: 1,000
+⏰ Duration: 7 Days
+
+HOW TO CLAIM:
+
+BASIC TASKS (Everyone gets 50 YGCT):
+✅ Follow Twitter: @YageCoin
+✅ Retweet + Tag 3 friends
+✅ Join this Telegram group
+✅ Fill form: [link]
+
+BONUS TASKS:
+💎 Complete your first bridge: +100 YGCT
+💎 Refer 3 friends: +150 YGCT
+💎 Create content about YGCT: +500 YGCT
+
+📝 Submit your entry here: [TaskOn/Form link]
+
+Distribution happens immediately after verification!
+
+Questions? Ask in @YageCoinSupport
+
+LET'S GO! 🔥
+```
+
+---
+
+#### **Reddit Post (r/CryptoAirdrop, r/Airdrops):**
+```
+Title: [LIVE] YGCT Multi-Chain Token Airdrop - 100K Tokens
+
+Body:
+
+**YGCT Genesis Airdrop Details:**
+
+🎯 Total Airdrop: 100,000 YGCT  
+⏰ Duration: 7 days  
+🔗 Available on: BSC, Polygon, Avalanche, Solana, +4 more  
+
+**What is YGCT?**
+Utility token for YageCoin Bridge & Swap platform. Holders get 50% discount on transaction fees.
+
+**How to Participate:**
+1. Follow Twitter: @YageCoin
+2. RT pinned tweet + tag 3 friends  
+3. Join Telegram: [link]
+4. Complete form: [link]
+
+**Bonus Rewards:**
+- First bridge: +100 YGCT
+- Refer 3 friends: +150 YGCT  
+- Create tutorial: +500 YGCT
+
+**Contract Addresses:**
+BSC: 0x...  
+Polygon: 0x...  
+[etc]
+
+Airdrop link: [TaskOn/Form]
+
+Not financial advice. DYOR.
+
+Email para Usuarios Existentes:
+Subject: "🎁 Exclusive: Claim Your 50 YGCT Tokens"
+Body:
+Hi there,
+
+You're receiving this because you've used YageCoin before!
+
+We're launching YGCT, our utility token, and you're eligible for an EXCLUSIVE airdrop.
+
+🎁 YOUR REWARD: 50 YGCT (just for being a user!)
+
+Plus, earn MORE tokens by:
