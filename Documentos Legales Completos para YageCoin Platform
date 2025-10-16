@@ -1,0 +1,1053 @@
+Documentos Legales Completos para YageCoin Platform
+Dado que tu plataforma es MÁS compleja (Swap, Bridge, News, Tokens, NFTs, Planes de Inversión), necesitas protección legal más robusta.
+
+⚠️ ALERTA IMPORTANTE: Planes de Inversión
+CRÍTICO: Los "planes de inversión" son el elemento MÁS RIESGOSO legalmente. Dependiendo de cómo estén estructurados, podrían clasificarse como:
+
+❌ Valores/Securities (requiere registro SEC en USA)
+❌ Esquema Ponzi (si pagas rendimientos de nuevos inversores)
+❌ Producto financiero regulado (requiere licencias)
+
+RECOMENDACIÓN URGENTE:
+
+Define EXACTAMENTE qué son estos "planes de inversión"
+Si prometen rendimientos garantizados = ALTO RIESGO LEGAL
+Considera eliminar esta sección o reestructurar como "staking" o "yield farming"
+
+
+DOCUMENTO 1: TERMS OF SERVICE (Completos)
+markdown# YAGECOIN PLATFORM - TERMS OF SERVICE
+
+**Last Updated:** [Fecha Actual]
+
+**PLEASE READ THESE TERMS CAREFULLY BEFORE USING OUR SERVICES**
+
+## 1. ACCEPTANCE OF TERMS
+
+By accessing or using YageCoin Platform ("Platform", "Service", "we", "us"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use our services.
+
+### 1.1 Platform Description
+YageCoin is a cryptocurrency aggregation platform that provides:
+- Cryptocurrency swap aggregation (via SimpleSwap integration)
+- Cross-chain bridge aggregation (via Rango Exchange integration)
+- Cryptocurrency news aggregation (via TradingView, CryptoPanic)
+- Utility tokens (YGCT - YageCoin Token, YGC - YageMeme Coin)
+- NFT marketplace/information
+- Educational content about cryptocurrency strategies
+
+### 1.2 Third-Party Services
+We integrate third-party services but DO NOT:
+- Execute transactions directly
+- Hold, custody, or control user funds
+- Provide the underlying swap/bridge technology
+- Guarantee third-party service availability or outcomes
+
+## 2. GEOGRAPHIC RESTRICTIONS
+
+### 2.1 Prohibited Jurisdictions
+Our services are NOT available to residents or citizens of:
+- China (PRC)
+- Egypt
+- Iraq
+- Qatar
+- Morocco
+- Algeria
+- Bangladesh
+- Nepal
+- North Macedonia
+- Bolivia
+- Any jurisdiction where cryptocurrency services are prohibited
+
+### 2.2 Restricted Jurisdictions
+Users in the following jurisdictions use services at their own risk and must comply with local laws:
+- United States (particularly New York residents - see section 2.3)
+- United Kingdom
+- India
+- Any jurisdiction with specific cryptocurrency regulations
+
+### 2.3 New York Residents
+Due to BitLicense requirements, certain services may not be available to New York State residents. By using our platform, New York residents acknowledge they are responsible for determining which services are lawfully available to them.
+
+### 2.4 Compliance Responsibility
+You are solely responsible for:
+- Determining if our services are legal in your jurisdiction
+- Complying with all local laws and regulations
+- All tax obligations related to cryptocurrency transactions
+- Obtaining any required licenses or registrations
+
+## 3. ELIGIBILITY
+
+You must:
+- Be at least 18 years old (or legal age in your jurisdiction)
+- Have legal capacity to enter contracts
+- Not be located in a prohibited jurisdiction
+- Not be on any sanctions list (OFAC, UN, EU, etc.)
+- Comply with all applicable laws
+
+## 4. SWAP SERVICES (SIMPLESWAP INTEGRATION)
+
+### 4.1 Third-Party Service
+Cryptocurrency swaps are processed by SimpleSwap, a third-party service provider. By using swap features, you also agree to SimpleSwap's terms of service.
+
+### 4.2 No Guarantees
+We do NOT guarantee:
+- Exchange rates
+- Transaction speed
+- Transaction completion
+- Minimum/maximum amounts
+- Fee amounts
+- Service availability
+
+### 4.3 Transaction Risks
+You acknowledge risks including:
+- Price volatility during transaction processing
+- Network congestion causing delays
+- Failed transactions
+- Loss of funds due to incorrect addresses
+- Smart contract vulnerabilities
+
+### 4.4 Irreversible Transactions
+Cryptocurrency transactions are IRREVERSIBLE. We cannot reverse, cancel, or refund completed transactions.
+
+## 5. BRIDGE SERVICES (RANGO EXCHANGE INTEGRATION)
+
+### 5.1 Third-Party Service
+Cross-chain bridges are processed by Rango Exchange, a third-party service provider. By using bridge features, you also agree to Rango Exchange's terms of service.
+
+### 5.2 Bridge-Specific Risks
+Cross-chain bridges carry additional risks:
+- Smart contract exploits
+- Bridge protocol failures
+- Loss of funds during bridging
+- Extended processing times (minutes to hours)
+- Potential permanent loss if sent to wrong network
+
+### 5.3 Bridge Limitations
+We do NOT control:
+- Supported chains or tokens
+- Bridge fees
+- Bridge liquidity
+- Bridge security
+- Transaction timing
+
+### 5.4 User Responsibility
+You are responsible for:
+- Selecting correct source and destination chains
+- Verifying token contract addresses
+- Understanding each blockchain's characteristics
+- Having native tokens for gas fees on destination chain
+
+## 6. NEWS AGGREGATION SERVICES
+
+### 6.1 Information Sources
+News content is aggregated from:
+- TradingView
+- CryptoPanic
+- Other third-party news sources
+
+### 6.2 No Endorsement
+Displaying news content does NOT constitute:
+- Financial advice
+- Investment recommendations
+- Endorsement of opinions expressed
+- Verification of accuracy
+- Guarantee of completeness
+
+### 6.3 Information Disclaimer
+News and market data:
+- May be delayed or inaccurate
+- Should not be relied upon for trading decisions
+- Is provided "as-is" without warranties
+- May contain third-party opinions we don't control
+
+## 7. YAGECOIN TOKENS (YGCT & YGC)
+
+### 7.1 Token Nature
+YGCT (YageCoin Token) and YGC (YageMeme Coin) are:
+- Utility tokens, NOT securities
+- NOT investment contracts
+- NOT equity or ownership in any company
+- NOT guaranteed to have any monetary value
+- Subject to complete loss of value
+
+### 7.2 Token Utility
+Tokens provide platform benefits including:
+- Fee discounts on swaps/bridges
+- Cashback rewards
+- Access to premium features
+- Staking rewards (if applicable)
+- Governance participation (if applicable)
+
+### 7.3 No Investment Advice
+Tokens are NOT:
+- Investment vehicles
+- Financial products
+- Backed by any assets
+- Subject to any buyback guarantees
+- Entitled to any profit sharing
+
+### 7.4 Token Risks
+You acknowledge:
+- Tokens may become worthless
+- No guaranteed liquidity
+- Price may be highly volatile
+- Smart contract risks exist
+- Regulatory risks exist
+
+### 7.5 Token Distribution
+Token distribution methods may include:
+- Airdrops
+- Rewards for platform usage
+- Liquidity provision rewards
+- Purchase on decentralized exchanges
+- Other distribution methods
+
+We reserve the right to modify distribution methods, tokenomics, or discontinue tokens entirely.
+
+## 8. NFTs (NON-FUNGIBLE TOKENS)
+
+### 8.1 NFT Disclaimer
+NFTs displayed or available on our platform:
+- Are NOT investments
+- May have no monetary value
+- Are subject to smart contract risks
+- May not be transferable or sellable
+- Are provided "as-is"
+
+### 8.2 NFT Ownership
+Purchasing or receiving an NFT grants you:
+- Ownership of the token itself
+- NOT intellectual property rights (unless explicitly stated)
+- NOT commercial usage rights (unless explicitly stated)
+- NOT guarantee of future value
+
+### 8.3 NFT Risks
+You acknowledge risks including:
+- Loss of access to NFT
+- Smart contract vulnerabilities
+- Marketplace failures
+- Gas fee costs
+- Illiquidity
+
+## 9. INVESTMENT PLANS / EDUCATIONAL CONTENT
+
+### 9.1 CRITICAL DISCLAIMER - NOT FINANCIAL ADVICE
+
+**WARNING: ANY "INVESTMENT PLANS" OR STRATEGIES DISCUSSED ON OUR PLATFORM ARE FOR EDUCATIONAL PURPOSES ONLY.**
+
+We DO NOT:
+- Provide financial, investment, or tax advice
+- Recommend specific investments
+- Guarantee any returns or outcomes
+- Manage funds on behalf of users
+- Operate as a financial advisor or broker
+- Hold any investment licenses
+
+### 9.2 Educational Purpose
+Content related to "investment plans" or strategies:
+- Is educational information only
+- Should not be construed as advice
+- Does not constitute a recommendation to buy/sell
+- May be inaccurate or outdated
+- Should be independently verified
+
+### 9.3 No Performance Guarantees
+We make NO guarantees about:
+- Investment returns
+- Profit potential
+- Risk levels
+- Strategy effectiveness
+- Market predictions
+
+### 9.4 Past Performance Disclaimer
+Any historical performance data:
+- Is not indicative of future results
+- May not be accurate
+- Does not guarantee similar outcomes
+- Should not influence investment decisions
+
+### 9.5 Consult Professionals
+Before making any investment decisions, consult:
+- Licensed financial advisors
+- Tax professionals
+- Legal counsel
+- Other qualified professionals
+
+### 9.6 High-Risk Disclaimer
+Cryptocurrency investments:
+- Are highly speculative
+- Carry substantial risk of loss
+- May result in total loss of invested capital
+- Are not suitable for all investors
+- Should only be made with funds you can afford to lose
+
+## 10. PLATFORM REWARDS & CASHBACK
+
+### 10.1 YGCT Rewards Program
+We may offer YGCT token rewards for:
+- Completing swaps/bridges through our platform
+- Referring users
+- Staking tokens
+- Participating in platform activities
+- Other promotional activities
+
+### 10.2 Reward Modifications
+We reserve the right to:
+- Modify reward rates at any time
+- Discontinue rewards program
+- Change eligibility criteria
+- Limit or cap rewards
+- Delay or deny rewards for suspicious activity
+
+### 10.3 No Guarantee of Value
+Rewards tokens:
+- May have no monetary value
+- Are not cash equivalents
+- Cannot be redeemed for fiat currency from us
+- May not be sellable on any exchange
+
+### 10.4 Verification Required
+We may require:
+- Transaction verification
+- Identity verification
+- Proof of legitimate platform usage
+- Compliance with terms
+
+Fraudulent reward claims will result in account termination and forfeiture of all rewards.
+
+## 11. FEES
+
+### 11.1 Platform Fees
+We may charge fees for:
+- Affiliate commissions from third-party services
+- Premium features or subscriptions
+- Priority support
+- Other value-added services
+
+### 11.2 Third-Party Fees
+You are responsible for fees charged by:
+- SimpleSwap (swap fees)
+- Rango Exchange (bridge fees)
+- Blockchain networks (gas fees)
+- Other integrated services
+
+### 11.3 Fee Changes
+We reserve the right to modify fees at any time with or without notice.
+
+## 12. USER ACCOUNTS & WALLETS
+
+### 12.1 No Account Required
+Basic platform usage may not require an account. However, certain features may require:
+- Wallet connection (MetaMask, etc.)
+- Email registration
+- Social media authentication
+
+### 12.2 Wallet Security
+You are solely responsible for:
+- Securing your private keys
+- Protecting your wallet passwords/seed phrases
+- All transactions from your wallet
+- Loss of access to your wallet
+
+**WE NEVER ASK FOR YOUR PRIVATE KEYS OR SEED PHRASES.**
+
+### 12.3 Account Security
+If you create an account, you are responsible for:
+- Maintaining password confidentiality
+- All activities under your account
+- Unauthorized access to your account
+- Immediately notifying us of security breaches
+
+## 13. PROHIBITED ACTIVITIES
+
+You agree NOT to:
+
+### 13.1 Illegal Activities
+- Violate any laws or regulations
+- Engage in money laundering
+- Finance terrorism or illegal activities
+- Evade taxes
+- Violate sanctions
+
+### 13.2 Platform Abuse
+- Manipulate or exploit platform features
+- Use bots or automated tools (without permission)
+- Engage in wash trading or market manipulation
+- Create fake accounts or use multiple accounts to abuse rewards
+- Reverse engineer or copy our platform
+
+### 13.3 Harmful Activities
+- Upload malware or viruses
+- Attempt to hack or breach security
+- Interfere with other users' access
+- Impersonate others
+- Engage in phishing or scams
+
+### 13.4 Consequences
+Violation may result in:
+- Account termination
+- Forfeiture of rewards
+- Legal action
+- Reporting to authorities
+
+## 14. INTELLECTUAL PROPERTY
+
+### 14.1 Our Rights
+YageCoin Platform, including:
+- Website design and content
+- Logos, trademarks, branding
+- Software and code
+- Documentation
+
+are owned by us or licensed to us and protected by intellectual property laws.
+
+### 14.2 Limited License
+We grant you a limited, non-exclusive, non-transferable license to access and use our platform for personal, non-commercial purposes.
+
+### 14.3 Restrictions
+You may NOT:
+- Copy or reproduce platform content
+- Create derivative works
+- Commercially exploit our intellectual property
+- Remove copyright or trademark notices
+
+### 14.4 User Content
+By submitting content (reviews, comments, etc.), you grant us:
+- Worldwide, royalty-free license to use, display, and distribute
+- Right to moderate, edit, or remove content
+- No obligation to compensate you
+
+## 15. PRIVACY & DATA PROTECTION
+
+### 15.1 Privacy Policy
+Our collection and use of personal data is governed by our Privacy Policy, which is incorporated by reference into these Terms.
+
+### 15.2 Data We Collect
+We may collect:
+- Wallet addresses (for rewards distribution)
+- IP addresses (for geolocation blocking)
+- Browser/device data (analytics)
+- Email addresses (if provided)
+- Transaction data (for reward verification)
+
+### 15.3 Data We DON'T Collect
+We DO NOT collect:
+- Government-issued IDs
+- Social security numbers
+- Private keys or seed phrases
+- Banking information
+- KYC documents (unless required by law)
+
+### 15.4 Third-Party Data
+SimpleSwap, Rango Exchange, and other integrated services may collect their own data per their privacy policies.
+
+## 16. DISCLAIMERS
+
+### 16.1 NO WARRANTIES
+THE PLATFORM IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
+- Merchantability
+- Fitness for a particular purpose
+- Non-infringement
+- Accuracy or completeness
+- Uninterrupted or error-free operation
+
+### 16.2 No Liability for Third Parties
+We are not responsible for:
+- SimpleSwap service failures
+- Rango Exchange issues
+- Blockchain network problems
+- Wallet provider issues
+- News source inaccuracies
+
+### 16.3 No Financial Advice
+NOTHING ON THIS PLATFORM CONSTITUTES FINANCIAL, INVESTMENT, TAX, OR LEGAL ADVICE.
+
+### 16.4 Regulatory Risk
+Cryptocurrency regulations are evolving. You acknowledge:
+- Future regulations may restrict services
+- Token classifications may change
+- We may need to modify or discontinue services
+- You are responsible for regulatory compliance
+
+## 17. LIMITATION OF LIABILITY
+
+### 17.1 Maximum Liability
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, OUR TOTAL LIABILITY TO YOU FOR ALL CLAIMS SHALL NOT EXCEED THE GREATER OF:
+- $100 USD, OR
+- The amount of fees you paid us in the past 12 months
+
+### 17.2 Excluded Damages
+WE ARE NOT LIABLE FOR:
+- Loss of profits or revenue
+- Loss of cryptocurrency or tokens
+- Loss of data
+- Loss of business opportunities
+- Indirect, incidental, or consequential damages
+- Punitive damages
+
+### 17.3 No Liability for Losses
+We are not responsible for losses due to:
+- User error (wrong addresses, incorrect amounts)
+- Third-party service failures
+- Smart contract bugs
+- Market volatility
+- Hacks or security breaches (unless caused by our gross negligence)
+- Regulatory actions
+
+### 17.4 Assumption of Risk
+By using our platform, you acknowledge and assume all risks associated with cryptocurrency, including total loss of funds.
+
+## 18. INDEMNIFICATION
+
+You agree to indemnify, defend, and hold harmless YageCoin Platform, its affiliates, officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from:
+- Your use of the platform
+- Your violation of these Terms
+- Your violation of any laws or regulations
+- Your violation of third-party rights
+- Your cryptocurrency transactions
+- Your tax obligations
+
+## 19. DISPUTE RESOLUTION
+
+### 19.1 Governing Law
+These Terms are governed by the laws of [YOUR JURISDICTION - ej: Panama, Estonia, Portugal], without regard to conflict of law principles.
+
+### 19.2 Arbitration (Optional - Remove if not applicable)
+Any disputes shall be resolved through binding arbitration in [JURISDICTION] under [ARBITRATION RULES].
+
+### 19.3 Class Action Waiver
+You agree to resolve disputes on an individual basis only, not as part of any class action or representative proceeding.
+
+### 19.4 Informal Resolution
+Before formal proceedings, parties agree to attempt good-faith negotiation for 30 days.
+
+## 20. TERMINATION
+
+### 20.1 Our Rights
+We reserve the right to:
+- Suspend or terminate your access at any time
+- Discontinue services or features
+- Modify platform functionality
+- Block certain jurisdictions
+
+### 20.2 Effect of Termination
+Upon termination:
+- Your right to use platform ceases immediately
+- We may delete your account data (per Privacy Policy)
+- Unclaimed rewards may be forfeited
+- These Terms survive termination where applicable
+
+## 21. MODIFICATIONS TO TERMS
+
+### 21.1 Right to Modify
+We reserve the right to modify these Terms at any time.
+
+### 21.2 Notice
+We will provide notice of material changes via:
+- Email (if provided)
+- Platform announcement
+- Updated "Last Modified" date
+
+### 21.3 Acceptance
+Continued use of platform after changes constitutes acceptance of modified Terms.
+
+## 22. MISCELLANEOUS
+
+### 22.1 Entire Agreement
+These Terms, together with Privacy Policy, constitute the entire agreement between you and YageCoin Platform.
+
+### 22.2 Severability
+If any provision is found unenforceable, the remaining provisions remain in effect.
+
+### 22.3 No Waiver
+Our failure to enforce any right does not waive that right.
+
+### 22.4 Assignment
+You may not assign your rights under these Terms. We may assign our rights to any successor entity.
+
+### 22.5 Force Majeure
+We are not liable for delays or failures due to events beyond our reasonable control (natural disasters, wars, government actions, blockchain network issues, etc.).
+
+### 22.6 Relationship
+These Terms do not create any partnership, joint venture, or agency relationship.
+
+## 23. CONTACT INFORMATION
+
+For questions about these Terms:
+
+**Email:** legal@yagecoin.space  
+**Support:** support@yagecoin.space  
+**Website:** https://yagecoin.space
+
+---
+
+**BY USING YAGECOIN PLATFORM, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THESE TERMS OF SERVICE.**
+
+---
+
+© 2024 YageCoin Platform. All Rights Reserved.
+
+DOCUMENTO 2: PRIVACY POLICY (GDPR Compliant)
+markdown# YAGECOIN PLATFORM - PRIVACY POLICY
+
+**Last Updated:** [Fecha Actual]
+
+**Effective Date:** [Fecha Actual]
+
+## 1. INTRODUCTION
+
+YageCoin Platform ("we", "us", "our") respects your privacy. This Privacy Policy explains how we collect, use, share, and protect your information when you use our platform.
+
+### 1.1 Commitment to Privacy
+We are committed to:
+- Transparency about data practices
+- Minimal data collection
+- User control over data
+- Compliance with privacy laws (GDPR, CCPA, etc.)
+
+### 1.2 Scope
+This policy applies to:
+- yagecoin.space website
+- All subdomains and services
+- Mobile applications (if applicable)
+- Related services
+
+## 2. INFORMATION WE COLLECT
+
+### 2.1 Information You Provide Directly
+
+**Wallet Addresses:**
+- Collected when you claim rewards
+- Used for YGCT/YGC token distribution
+- Stored in encrypted database
+
+**Email Addresses (Optional):**
+- Collected if you subscribe to newsletters
+- Used for notifications and updates
+- You can unsubscribe anytime
+
+**User-Generated Content:**
+- Reviews, comments, feedback
+- Social media handles (for airdrops)
+- Referral links you create
+
+### 2.2 Information Collected Automatically
+
+**Analytics Data:**
+- IP address
+- Browser type and version
+- Device information
+- Operating system
+- Pages visited
+- Time spent on pages
+- Referring website
+
+**Cookies and Similar Technologies:**
+- Essential cookies (for functionality)
+- Analytics cookies (Google Analytics)
+- Preference cookies (language, theme)
+
+### 2.3 Blockchain Data
+
+**Public Blockchain Information:**
+- Transaction hashes (for verification)
+- Wallet addresses (public information)
+- Token balances (public on blockchain)
+
+**Note:** Blockchain data is PUBLIC and immutable. We do not control blockchain data.
+
+### 2.4 Information From Third Parties
+
+**Third-Party Services:**
+- SimpleSwap may share transaction data
+- Rango Exchange may share bridge data
+- Social media platforms (if you use social login)
+
+## 3. HOW WE USE YOUR INFORMATION
+
+### 3.1 Platform Operation
+- Process reward claims
+- Verify transactions
+- Prevent fraud and abuse
+- Provide customer support
+- Maintain platform functionality
+
+### 3.2 Communication
+- Send reward notifications
+- Provide customer support responses
+- Send platform updates (if subscribed)
+- Respond to inquiries
+
+### 3.3 Analytics & Improvement
+- Understand user behavior
+- Improve platform features
+- Optimize user experience
+- Analyze trends
+
+### 3.4 Legal Compliance
+- Comply with legal obligations
+- Enforce Terms of Service
+- Protect our rights and property
+- Respond to legal requests
+
+### 3.5 Marketing (With Consent)
+- Send promotional emails (opt-in only)
+- Notify about airdrops and rewards
+- Share platform news
+
+**You can opt-out of marketing communications at any time.**
+
+## 4. INFORMATION WE DO NOT COLLECT
+
+We explicitly DO NOT collect:
+- ❌ Government-issued ID documents
+- ❌ Social security numbers or tax IDs
+- ❌ Bank account information
+- ❌ Credit card numbers
+- ❌ Private keys or seed phrases
+- ❌ Passwords (we never ask for them)
+- ❌ KYC documents (unless legally required)
+
+**NEVER share your private keys with anyone, including us.**
+
+## 5. HOW WE SHARE YOUR INFORMATION
+
+### 5.1 We DO NOT Sell Your Data
+We DO NOT sell, rent, or trade your personal information to third parties for marketing purposes.
+
+### 5.2 Service Providers
+We may share data with:
+
+**Analytics Providers:**
+- Google Analytics (IP addresses, usage data)
+- See Google's privacy policy
+
+**Hosting Providers:**
+- Cloud infrastructure providers
+- Database hosting services
+
+**Communication Tools:**
+- Email service providers (for notifications)
+- Customer support platforms
+
+All service providers are contractually bound to protect your data.
+
+### 5.3 Third-Party Platforms
+
+**SimpleSwap:**
+- When you use swap features, data is shared with SimpleSwap
+- See SimpleSwap's privacy policy
+
+**Rango Exchange:**
+- When you use bridge features, data is shared with Rango Exchange
+- See Rango Exchange's privacy policy
+
+**TradingView & CryptoPanic:**
+- News widgets may collect data
+- See their respective privacy policies
+
+### 5.4 Legal Requirements
+We may disclose information if required by:
+- Court orders or subpoenas
+- Law enforcement requests
+- Legal processes
+- Protection of our rights or safety
+
+### 5.5 Business Transfers
+If we are acquired or merged, your information may be transferred to the successor entity.
+
+## 6. DATA RETENTION
+
+### 6.1 Retention Periods
+
+**Wallet Addresses:**
+- Retained for 24 months after last activity
+- Required for reward distribution and fraud prevention
+
+**Email Addresses:**
+- Retained until you unsubscribe
+- Deleted within 30 days of unsubscribe request
+
+**Analytics Data:**
+- Retained per Google Analytics default (26 months)
+- Can be deleted upon request
+
+**Transaction Verification Data:**
+- Retained for 24 months
+- May be retained longer for legal/audit purposes
+
+### 6.2 Deletion Requests
+You can request data deletion (see Section 8 - Your Rights).
+
+Note: Blockchain data cannot be deleted as it's immutably stored on public blockchains.
+
+## 7. DATA SECURITY
+
+### 7.1 Security Measures
+We implement security measures including:
+- Encryption in transit (HTTPS/SSL)
+- Encrypted databases
+- Access controls and authentication
+- Regular security audits
+- Secure hosting infrastructure
+
+### 7.2 Limitations
+Despite our efforts:
+- No system is 100% secure
+- We cannot guarantee absolute security
+- You are responsible for securing your wallet and devices
+
+### 7.3 Breach Notification
+In the event of a data breach, we will:
+- Investigate promptly
+- Notify affected users within 72 hours (where required by law)
+- Report to relevant authorities (where required)
+- Take remedial actions
+
+## 8. YOUR PRIVACY RIGHTS
+
+### 8.1 European Users (GDPR Rights)
+
+**Right to Access:**
+- Request a copy of your personal data
+- Receive data in machine-readable format
+
+**Right to Rectification:**
+- Correct inaccurate data
+- Complete incomplete data
+
+**Right to Erasure ("Right to Be Forgotten"):**
+- Request deletion of your data
+- Exceptions: legal obligations, legitimate interests
+
+**Right to Restrict Processing:**
+- Limit how we use your data
+- Object to certain processing
+
+**Right to Data Portability:**
+- Receive your data in portable format
+- Transfer data to another service
+
+**Right to Object:**
+- Object to marketing communications
+- Object to automated decision-making
+
+**Right to Withdraw Consent:**
+- Withdraw consent for processing at any time
+
+**Right to Lodge Complaint:**
+- File complaint with supervisory authority (e.g., ICO in UK, CNIL in France)
+
+### 8.2 California Users (CCPA Rights)
+
+**Right to Know:**
+- Categories of data collected
+- Sources of data
+- Business purposes for collection
+- Third parties we share with
+
+**Right to Delete:**
+- Request deletion of personal information
+
+**Right to Opt-Out:**
+- Opt-out of sale of personal information (we don't sell data)
+
+**Right to Non-Discrimination:**
+- Equal service regardless of privacy rights exercise
+
+### 8.3 Other Jurisdictions
+Users in other jurisdictions may have similar rights under local laws.
+
+### 8.4 Exercising Your Rights
+To exercise your rights:
+- **Email:** privacy@yagecoin.space
+- **Subject:** "Privacy Rights Request"
+- **Include:** Your wallet address or email (for verification)
+
+We will respond within 30 days (or as required by law).
+
+## 9. COOKIES POLICY
+
+### 9.1 What Are Cookies?
+Cookies are small text files stored on your device when you visit websites.
+
+### 9.2 Cookies We Use
+
+**Essential Cookies (Cannot Be Disabled):**
+- Session management
+- Security features
+- Basic functionality
+
+**Analytics Cookies (Can Be Disabled):**
+- Google Analytics
+- Usage statistics
+- Performance monitoring
+
+**Preference Cookies (Can Be Disabled):**
+- Language preferences
+- Theme settings
+- Display preferences
+
+### 9.3 Third-Party Cookies
+Third-party services may set their own cookies:
+- Google Analytics
+- Social media widgets
+- News aggregator widgets
+
+### 9.4 Managing Cookies
+You can control cookies via:
+- Browser settings (block or delete cookies)
+- Opt-out of Google Analytics: tools.google.com/dlpage/gaoptout
+- Our cookie consent banner (EU users)
+
+**Note:** Disabling essential cookies may affect platform functionality.
+
+## 10. INTERNATIONAL DATA TRANSFERS
+
+### 10.1 Data Location
+Your data may be:
+- Stored on servers in [YOUR SERVER LOCATION]
+- Processed by service providers globally
+- Transferred across borders
+
+### 10.2 Transfer Mechanisms
+For EU users, we use:
+- Standard Contractual Clauses (SCCs)
+- Adequacy decisions
+- Other lawful transfer mechanisms
+
+### 10.3 Safeguards
+We ensure appropriate safeguards for international transfers per GDPR and other laws.
+
+## 11. CHILDREN'S PRIVACY
+
+### 11.1 Age Restriction
+Our platform is NOT intended for users under 18.
+
+### 11.2 No Knowingly Collection
+We do not knowingly collect data from children under 18.
+
+### 11.3 Parental Notice
+If we become aware of data collection from a minor, we will:
+- Delete the data immediately
+- Terminate any associated accounts
+- Notify parents/guardians if possible
+
+### 11.4 Parental Requests
+If you believe your child has provided us data, contact: privacy@yagecoin.space
+
+## 12. DO NOT TRACK SIGNALS
+
+Some browsers offer "Do Not Track" (DNT) signals. We currently do not respond to DNT signals as there is no industry standard for interpretation.
+
+## 13. CHANGES TO THIS PRIVACY POLICY
+
+### 13.1 Right to Modify
+We may update this Privacy Policy to reflect:
+- Changes in our practices
+- Legal requirements
+- New features or services
+
+### 13.2 Notification
+We will notify you of material changes via:
+- Email (if provided)
+- Platform announcement
+- Updated "Last Updated" date
+
+### 13.3 Review
+We encourage periodic review of this policy.
+
+### 13.4 Continued Use
+Continued use after changes constitutes acceptance of updated policy.
+
+## 14. THIRD-PARTY LINKS
+
+Our platform may contain links to third-party websites. We are not responsible for their privacy practices. Review their privacy policies before providing information.
+
+## 15. CONTACT US
+
+For privacy-related questions, concerns, or rights requests:
+
+**Privacy Officer:** privacy@yagecoin.space  
+**General Support:** support@yagecoin.space  
+**Website:** https://yagecoin.space/privacy
+
+**Mailing Address (if applicable):**  
+[Your registered business address]
+
+### 15.1 Response Time
+We aim to respond to privacy inquiries within:
+- 48 hours (acknowledgment)
+- 30 days (full response)
+
+### 15.2 Verification
+We may require verification of your identity before processing requests to protect your privacy.
+
+---
+
+**BY USING YAGECOIN PLATFORM, YOU ACKNOWLEDGE THAT YOU HAVE READ AND UNDERSTOOD THIS PRIVACY POLICY.**
+
+---
+
+© 2024 YageCoin Platform. All Rights Reserved.
+
+DOCUMENTO 3: INVESTMENT DISCLAIMER (Página Separada - CRÍTICO)
+html<!DOCTYPE html>
+<html>
+<head>
+  <title>Investment Disclaimer - YageCoin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .disclaimer-box {
+      background: white;
+      padding: 30px;
+      border-left: 5px solid #dc3545;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #dc3545;
+      border-bottom: 2px solid #dc3545;
+      padding-bottom: 10px;
+    }
+    .warning-icon {
+      font-size: 48px;
+      text-align: center;
+      color: #dc3545;
+    }
+    .highlight {
+      background: #fff3cd;
+      padding: 15px;
+      border-left: 4px solid #ffc107;
+      margin: 20px 0;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    ul li:before {
+      content: "⚠️ ";
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="disclaimer-box">
+  <div class="warning-icon">⚠️</div>
+  
+  <h1>CRITICAL INVESTMENT RISK DISCLAIMER</h1>
+  
+  <p><strong>PLEASE READ THIS ENTIRE PAGE BEFORE USING ANY "INVESTMENT PLAN" OR STRATEGY CONTENT ON YAGECOIN PLATFORM.</strong></p>
+
+  <div class="highlight">
+    <h2>🚨 THIS IS NOT FINANCIAL ADVICE 🚨</h2>
+    <p><strong>YageCoin Platform, its owners, operators, employees, and affiliates are NOT:</strong></p>
+    <ul>
+      <li>Financial advisors</li>
