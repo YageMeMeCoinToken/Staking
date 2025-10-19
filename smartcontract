@@ -1,0 +1,681 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+/**
+ * @title Yage Meme Coin (YMC)
+ * @dev Un token con consciencia trascendental alienígena verde
+ * Características: Staking Multi-Tier, Gobernanza, Burn Automático, 
+ * Anti-Whale, Reflection System, Seguridad avanzada
+ */
+
+contract YageMemeCoins is ERC20, ERC20Burnable, Ownable, Pausable, ReentrancyGuard {
+    
+    // ==================== CONSTANTES ====================
+    uint256 public constant INITIAL_SUPPLY = 1_000_000_000 * 10 ** 18;
+    uint256 public constant MAX_SUPPLY = 2_000_000_000 * 10 ** 18;
+    uint256 public constant MIN_VOTING_POWER = 1000 * 10 ** 18;
+    uint256 public constant PROPOSAL_DURATION = 7 days;
+    uint256 public constant EXECUTION_DELAY = 2 days;
+
+    // ==================== ENUMS ====================
+    enum StakingTier { Degen, MoonChaser, DiamondHands }
+    enum ProposalState { Pending, Active, Canceled, Defeated, Succeeded, Queued, Expired, Executed }
+    enum VoteType { For, Against, Abstain }
+
+    // ==================== ESTRUCTURAS ====================
+    struct StakeInfo {
+        uint256 amount;
+        StakingTier tier;
+        uint256 startTime;
+        uint256 lockEndTime;
+        uint256 lastRewardTime;
+        uint256 totalRewardsClaimed;
+        bool active;
+    }
+
+    struct Proposal {
+        uint256 id;
+        address proposer;
+        string description;
+        uint256 startBlock;
+        uint256 endBlock;
+        uint256 forVotes;
+        uint256 againstVotes;
+        uint256 abstainVotes;
+        bool canceled;
+        bool executed;
+        uint256 eta;
+        mapping(address => bool) hasVoted;
+        mapping(address => VoteType) voteType;
+    }
+
+    // ==================== VARIABLES DE ESTADO - STAKING ====================
+    mapping(address => StakeInfo[]) public userStakes;
+    mapping(address => uint256) public userStakeCount;
+    
+    uint256 public totalStaked;
+    uint256 public totalRewardsDistributed;
+    
+    uint256 public stakingTaxRate = 2;
+    uint256 public transferTaxRate = 1;
+    address public treasuryAddress;
+    
+    bool public stakingEnabled = true;
+    bool public governanceEnabled = true;
+    
+    uint256 public constant MIN_PROPOSAL_THRESHOLD = 50000 * 10 ** 18;
+
+    mapping(StakingTier => uint256) public tierAPY;
+    mapping(StakingTier => uint256) public tierLockDuration;
+
+    // ==================== VARIABLES DE ESTADO - GOBERNANZA ====================
+    mapping(uint256 => Proposal) public proposals;
+    uint256 public proposalCount;
+
+    // ==================== VARIABLES DE ESTADO - BLACKLIST ====================
+    mapping(address => bool) public blacklist;
+
+    // ==================== VARIABLES DE ESTADO - BURN ====================
+    uint256 public burnRate = 1; // 1% quemado por transacción
+    uint256 public totalBurned;
+    uint256 public accumulatedBurnReflection; // Para reflection system
+
+    // ==================== VARIABLES DE ESTADO - ANTI-WHALE ====================
+    uint256 public maxTransactionAmount = (INITIAL_SUPPLY * 2) / 100; // 2% del supply inicial
+    uint256 public maxWalletAmount = (INITIAL_SUPPLY * 5) / 100; // 5% del supply
+    mapping(address => bool) public isExcludedFromAntiWhale;
+    bool public antiWhaleEnabled = true;
+
+    // ==================== VARIABLES DE ESTADO - REFLECTION ====================
+    uint256 public reflectionRate = 2; // 2% de cada transacción va a reflection
+    mapping(address => uint256) public reflectionBalance;
+    uint256 public totalReflectionDistributed;
+    mapping(address => bool) public isExcludedFromReflection;
+
+    // ==================== EVENTOS ====================
+    event Staked(address indexed user, uint256 stakeId, uint256 amount, StakingTier tier, uint256 lockDuration, uint256 timestamp);
+    event Unstaked(address indexed user, uint256 stakeId, uint256 amount, uint256 reward, uint256 timestamp);
+    event RewardsClaimed(address indexed user, uint256 stakeId, uint256 reward, uint256 timestamp);
+    event ProposalCreated(uint256 indexed proposalId, address indexed proposer, string description);
+    event VoteCasted(uint256 indexed proposalId, address indexed voter, VoteType voteType, uint256 weight);
+    event ProposalExecuted(uint256 indexed proposalId);
+    event ProposalCanceled(uint256 indexed proposalId);
+    event AddedToBlacklist(address indexed account);
+    event RemovedFromBlacklist(address indexed account);
+    event TaxRateChanged(uint256 stakingTax, uint256 transferTax);
+    event TierAPYUpdated(StakingTier tier, uint256 newAPY);
+    event TokensBurned(uint256 amount);
+    event ReflectionDistributed(uint256 amount, uint256 holders);
+    event AntiWhaleTriggered(address indexed user, uint256 attemptedAmount, uint256 maxAllowed);
+    event ReflectionClaimed(address indexed user, uint256 amount);
+
+    // ==================== MODIFICADORES ====================
+    modifier whenStakingEnabled() {
+        require(stakingEnabled, "Staking no esta habilitado");
+        _;
+    }
+
+    modifier whenGovernanceEnabled() {
+        require(governanceEnabled, "Gobernanza no esta habilitada");
+        _;
+    }
+
+    modifier notBlacklisted(address _address) {
+        require(!blacklist[_address], "Direccion esta en la lista negra");
+        _;
+    }
+
+    modifier antiWhale(address from, address to, uint256 amount) {
+        if (antiWhaleEnabled && !isExcludedFromAntiWhale[from] && !isExcludedFromAntiWhale[to]) {
+            require(amount <= maxTransactionAmount, "Excede el limite de transaccion por whale protection");
+            
+            if (to != address(this)) {
+                require(balanceOf(to) + amount <= maxWalletAmount, "Excede el limite de wallet");
+            }
+        }
+        _;
+    }
+
+    // ==================== CONSTRUCTOR ====================
+    constructor(address _treasuryAddress) ERC20("Yage Meme Coin", "YMC") {
+        require(_treasuryAddress != address(0), "Treasury no puede ser address zero");
+        treasuryAddress = _treasuryAddress;
+        
+        // Inicializar tasas de APY por tier
+        tierAPY[StakingTier.Degen] = 25;
+        tierAPY[StakingTier.MoonChaser] = 69;
+        tierAPY[StakingTier.DiamondHands] = 420;
+        
+        // Inicializar períodos de lock
+        tierLockDuration[StakingTier.Degen] = 0;
+        tierLockDuration[StakingTier.MoonChaser] = 30 days;
+        tierLockDuration[StakingTier.DiamondHands] = 90 days;
+        
+        // Excluir direcciones especiales de anti-whale y reflection
+        isExcludedFromAntiWhale[msg.sender] = true;
+        isExcludedFromAntiWhale[address(this)] = true;
+        isExcludedFromAntiWhale[_treasuryAddress] = true;
+        
+        isExcludedFromReflection[address(this)] = true;
+        isExcludedFromReflection[address(0)] = true;
+        
+        _mint(msg.sender, INITIAL_SUPPLY);
+    }
+
+    // ==================== FUNCIONES DE STAKING ====================
+    
+    function stake(uint256 _amount, StakingTier _tier) 
+        external 
+        whenStakingEnabled 
+        notBlacklisted(msg.sender) 
+        nonReentrant 
+    {
+        require(_amount > 0, "La cantidad debe ser mayor a 0");
+        require(balanceOf(msg.sender) >= _amount, "Saldo insuficiente");
+        require(_tier <= StakingTier.DiamondHands, "Tier invalido");
+
+        _transfer(msg.sender, address(this), _amount);
+
+        uint256 stakeId = userStakeCount[msg.sender];
+        StakeInfo memory newStake = StakeInfo({
+            amount: _amount,
+            tier: _tier,
+            startTime: block.timestamp,
+            lockEndTime: block.timestamp + tierLockDuration[_tier],
+            lastRewardTime: block.timestamp,
+            totalRewardsClaimed: 0,
+            active: true
+        });
+
+        userStakes[msg.sender].push(newStake);
+        userStakeCount[msg.sender]++;
+        totalStaked += _amount;
+
+        emit Staked(msg.sender, stakeId, _amount, _tier, tierLockDuration[_tier], block.timestamp);
+    }
+
+    function unstake(uint256 _stakeId) external nonReentrant {
+        require(_stakeId < userStakeCount[msg.sender], "Stake ID invalido");
+        
+        StakeInfo storage stakeInfo = userStakes[msg.sender][_stakeId];
+        require(stakeInfo.active, "Este stake no esta activo");
+        
+        if (tierLockDuration[stakeInfo.tier] > 0) {
+            require(block.timestamp >= stakeInfo.lockEndTime, "Los tokens estan bloqueados");
+        }
+
+        uint256 reward = _calculateRewards(_stakeId, msg.sender);
+        
+        uint256 amount = stakeInfo.amount;
+        stakeInfo.active = false;
+        totalStaked -= amount;
+
+        _transfer(address(this), msg.sender, amount);
+        
+        if (reward > 0) {
+            _claimReward(msg.sender, _stakeId, reward);
+        }
+
+        emit Unstaked(msg.sender, _stakeId, amount, reward, block.timestamp);
+    }
+
+    function calculateRewards(address _user, uint256 _stakeId) external view returns (uint256) {
+        require(_stakeId < userStakeCount[_user], "Stake ID invalido");
+        return _calculateRewards(_stakeId, _user);
+    }
+
+    function _calculateRewards(uint256 _stakeId, address _user) internal view returns (uint256) {
+        StakeInfo storage stakeInfo = userStakes[_user][_stakeId];
+        
+        if (!stakeInfo.active || stakeInfo.amount == 0) return 0;
+
+        uint256 apy = tierAPY[stakeInfo.tier];
+        uint256 timeElapsed = block.timestamp - stakeInfo.lastRewardTime;
+        uint256 rewardPerSecond = (stakeInfo.amount * apy) / (100 * 365 * 24 * 60 * 60);
+        
+        return (rewardPerSecond * timeElapsed);
+    }
+
+    function claimRewards(uint256 _stakeId) external nonReentrant {
+        require(_stakeId < userStakeCount[msg.sender], "Stake ID invalido");
+        
+        uint256 reward = _calculateRewards(_stakeId, msg.sender);
+        require(reward > 0, "No hay rewards para reclamar");
+
+        _claimReward(msg.sender, _stakeId, reward);
+    }
+
+    function _claimReward(address _user, uint256 _stakeId, uint256 _reward) internal {
+        StakeInfo storage stakeInfo = userStakes[_user][_stakeId];
+        
+        uint256 tax = (_reward * stakingTaxRate) / 100;
+        uint256 netReward = _reward - tax;
+
+        stakeInfo.lastRewardTime = block.timestamp;
+        stakeInfo.totalRewardsClaimed += netReward;
+        totalRewardsDistributed += netReward;
+
+        _mint(_user, netReward);
+        _mint(treasuryAddress, tax);
+
+        emit RewardsClaimed(_user, _stakeId, netReward, block.timestamp);
+    }
+
+    function getStakeInfo(address _user) external view returns (StakeInfo[] memory) {
+        StakeInfo[] memory userStakesCopy = new StakeInfo[](userStakeCount[_user]);
+        for (uint256 i = 0; i < userStakeCount[_user]; i++) {
+            userStakesCopy[i] = userStakes[_user][i];
+        }
+        return userStakesCopy;
+    }
+
+    function getSpecificStake(address _user, uint256 _stakeId) external view returns (
+        uint256 amount,
+        StakingTier tier,
+        uint256 apy,
+        uint256 lockTimeRemaining,
+        uint256 pendingRewards,
+        uint256 totalRewardsClaimed,
+        bool active
+    ) {
+        require(_stakeId < userStakeCount[_user], "Stake ID invalido");
+        StakeInfo storage stake = userStakes[_user][_stakeId];
+        
+        amount = stake.amount;
+        tier = stake.tier;
+        apy = tierAPY[stake.tier];
+        lockTimeRemaining = block.timestamp < stake.lockEndTime ? stake.lockEndTime - block.timestamp : 0;
+        pendingRewards = _calculateRewards(_stakeId, _user);
+        totalRewardsClaimed = stake.totalRewardsClaimed;
+        active = stake.active;
+    }
+
+    function getVotingPower(address _user) public view returns (uint256) {
+        uint256 stakedAmount = 0;
+        for (uint256 i = 0; i < userStakeCount[_user]; i++) {
+            if (userStakes[_user][i].active) {
+                stakedAmount += userStakes[_user][i].amount;
+            }
+        }
+        return balanceOf(_user) + stakedAmount;
+    }
+
+    // ==================== FUNCIONES DE BURN (DEFLATIONARY) ====================
+
+    /**
+     * @dev Quemar tokens manualmente
+     */
+    function burnTokens(uint256 _amount) external {
+        require(_amount > 0, "La cantidad debe ser mayor a 0");
+        require(balanceOf(msg.sender) >= _amount, "Saldo insuficiente");
+        
+        _burn(msg.sender, _amount);
+        totalBurned += _amount;
+        
+        emit TokensBurned(_amount);
+    }
+
+    /**
+     * @dev Obtener información de quemazón
+     */
+    function getBurnStats() external view returns (uint256 burned, uint256 remaining, uint256 burnPercentage) {
+        burned = totalBurned;
+        remaining = INITIAL_SUPPLY - totalBurned;
+        burnPercentage = (totalBurned * 100) / INITIAL_SUPPLY;
+    }
+
+    // ==================== FUNCIONES DE REFLECTION SYSTEM ====================
+
+    /**
+     * @dev Reclamar rewards de reflection
+     */
+    function claimReflection() external nonReentrant {
+        require(reflectionBalance[msg.sender] > 0, "No hay reflection para reclamar");
+        require(!isExcludedFromReflection[msg.sender], "Esta address esta excluida de reflection");
+        
+        uint256 amount = reflectionBalance[msg.sender];
+        reflectionBalance[msg.sender] = 0;
+        
+        _mint(msg.sender, amount);
+        
+        emit ReflectionClaimed(msg.sender, amount);
+    }
+
+    /**
+     * @dev Ver reflection pendiente
+     */
+    function getReflectionBalance(address _user) external view returns (uint256) {
+        if (isExcludedFromReflection[_user]) return 0;
+        return reflectionBalance[_user];
+    }
+
+    /**
+     * @dev Obtener estadísticas de reflection
+     */
+    function getReflectionStats() external view returns (
+        uint256 accumulated,
+        uint256 totalDistributed,
+        uint256 rate
+    ) {
+        accumulated = accumulatedBurnReflection;
+        totalDistributed = totalReflectionDistributed;
+        rate = reflectionRate;
+    }
+
+    // ==================== FUNCIONES DE ANTI-WHALE ====================
+
+    /**
+     * @dev Actualizar límite máximo de transacción
+     */
+    function setMaxTransactionAmount(uint256 _amount) external onlyOwner {
+        require(_amount >= (INITIAL_SUPPLY / 1000), "Minimo 0.1% del supply");
+        maxTransactionAmount = _amount;
+    }
+
+    /**
+     * @dev Actualizar límite máximo de wallet
+     */
+    function setMaxWalletAmount(uint256 _amount) external onlyOwner {
+        require(_amount >= (INITIAL_SUPPLY / 100), "Minimo 1% del supply");
+        maxWalletAmount = _amount;
+    }
+
+    /**
+     * @dev Excluir dirección de anti-whale
+     */
+    function excludeFromAntiWhale(address _address) external onlyOwner {
+        isExcludedFromAntiWhale[_address] = true;
+    }
+
+    /**
+     * @dev Incluir dirección en anti-whale
+     */
+    function includeInAntiWhale(address _address) external onlyOwner {
+        isExcludedFromAntiWhale[_address] = false;
+    }
+
+    /**
+     * @dev Habilitar/Deshabilitar anti-whale
+     */
+    function setAntiWhaleEnabled(bool _enabled) external onlyOwner {
+        antiWhaleEnabled = _enabled;
+    }
+
+    /**
+     * @dev Obtener información de anti-whale
+     */
+    function getAntiWhaleInfo() external view returns (
+        bool enabled,
+        uint256 maxTransaction,
+        uint256 maxWallet,
+        uint256 currentSupply
+    ) {
+        enabled = antiWhaleEnabled;
+        maxTransaction = maxTransactionAmount;
+        maxWallet = maxWalletAmount;
+        currentSupply = totalSupply();
+    }
+
+    // ==================== FUNCIONES DE GOBERNANZA ====================
+
+    function createProposal(string memory _description) 
+        external 
+        whenGovernanceEnabled 
+        notBlacklisted(msg.sender) 
+        returns (uint256)
+    {
+        require(
+            getVotingPower(msg.sender) >= MIN_PROPOSAL_THRESHOLD,
+            "Poder de voto insuficiente"
+        );
+        require(bytes(_description).length > 0 && bytes(_description).length <= 1000, "Descripcion invalida");
+
+        uint256 proposalId = proposalCount++;
+        Proposal storage newProposal = proposals[proposalId];
+        
+        newProposal.id = proposalId;
+        newProposal.proposer = msg.sender;
+        newProposal.description = _description;
+        newProposal.startBlock = block.number + 1;
+        newProposal.endBlock = block.number + (PROPOSAL_DURATION / 12);
+
+        emit ProposalCreated(proposalId, msg.sender, _description);
+
+        return proposalId;
+    }
+
+    function castVote(uint256 _proposalId, VoteType _voteType) 
+        external 
+        whenGovernanceEnabled 
+        notBlacklisted(msg.sender) 
+        nonReentrant
+    {
+        require(_proposalId < proposalCount, "Propuesta no existe");
+        Proposal storage proposal = proposals[_proposalId];
+        
+        require(!proposal.canceled, "Propuesta fue cancelada");
+        require(!proposal.executed, "Propuesta ya fue ejecutada");
+        require(block.number >= proposal.startBlock && block.number <= proposal.endBlock, "Votacion no esta activa");
+        require(!proposal.hasVoted[msg.sender], "Ya votaste");
+
+        uint256 votingPower = getVotingPower(msg.sender);
+        require(votingPower >= MIN_VOTING_POWER, "Poder de voto insuficiente");
+
+        proposal.hasVoted[msg.sender] = true;
+        proposal.voteType[msg.sender] = _voteType;
+
+        if (_voteType == VoteType.For) {
+            proposal.forVotes += votingPower;
+        } else if (_voteType == VoteType.Against) {
+            proposal.againstVotes += votingPower;
+        } else {
+            proposal.abstainVotes += votingPower;
+        }
+
+        emit VoteCasted(_proposalId, msg.sender, _voteType, votingPower);
+    }
+
+    function getProposalState(uint256 _proposalId) public view returns (ProposalState) {
+        require(_proposalId < proposalCount, "Propuesta no existe");
+        Proposal storage proposal = proposals[_proposalId];
+
+        if (proposal.canceled) {
+            return ProposalState.Canceled;
+        } else if (block.number <= proposal.endBlock) {
+            return ProposalState.Active;
+        } else if (proposal.forVotes <= proposal.againstVotes) {
+            return ProposalState.Defeated;
+        } else if (proposal.eta == 0) {
+            return ProposalState.Succeeded;
+        } else if (block.timestamp < proposal.eta) {
+            return ProposalState.Queued;
+        } else if (proposal.executed) {
+            return ProposalState.Executed;
+        } else if (block.timestamp >= proposal.eta + EXECUTION_DELAY) {
+            return ProposalState.Expired;
+        }
+
+        return ProposalState.Pending;
+    }
+
+    function getProposalInfo(uint256 _proposalId) external view returns (
+        uint256 id,
+        address proposer,
+        string memory description,
+        uint256 forVotes,
+        uint256 againstVotes,
+        uint256 abstainVotes,
+        ProposalState state
+    ) {
+        require(_proposalId < proposalCount, "Propuesta no existe");
+        Proposal storage proposal = proposals[_proposalId];
+        
+        return (
+            proposal.id,
+            proposal.proposer,
+            proposal.description,
+            proposal.forVotes,
+            proposal.againstVotes,
+            proposal.abstainVotes,
+            getProposalState(_proposalId)
+        );
+    }
+
+    function executeProposal(uint256 _proposalId) external onlyOwner nonReentrant {
+        require(_proposalId < proposalCount, "Propuesta no existe");
+        Proposal storage proposal = proposals[_proposalId];
+        
+        require(!proposal.executed, "Propuesta ya fue ejecutada");
+        require(proposal.forVotes > proposal.againstVotes, "Propuesta no fue aprobada");
+
+        proposal.executed = true;
+        emit ProposalExecuted(_proposalId);
+    }
+
+    function cancelProposal(uint256 _proposalId) external onlyOwner {
+        require(_proposalId < proposalCount, "Propuesta no existe");
+        Proposal storage proposal = proposals[_proposalId];
+        require(!proposal.executed, "Propuesta ya fue ejecutada");
+
+        proposal.canceled = true;
+        emit ProposalCanceled(_proposalId);
+    }
+
+    // ==================== FUNCIONES DE ADMINISTRACIÓN ====================
+
+    function updateTierAPY(StakingTier _tier, uint256 _newAPY) external onlyOwner {
+        require(_tier <= StakingTier.DiamondHands, "Tier invalido");
+        require(_newAPY > 0 && _newAPY <= 1000, "APY invalido");
+        tierAPY[_tier] = _newAPY;
+        emit TierAPYUpdated(_tier, _newAPY);
+    }
+
+    function addToBlacklist(address _address) external onlyOwner {
+        require(_address != address(0), "Address invalido");
+        blacklist[_address] = true;
+        emit AddedToBlacklist(_address);
+    }
+
+    function removeFromBlacklist(address _address) external onlyOwner {
+        blacklist[_address] = false;
+        emit RemovedFromBlacklist(_address);
+    }
+
+    function updateTaxRates(uint256 _stakingTax, uint256 _transferTax) external onlyOwner {
+        require(_stakingTax <= 10 && _transferTax <= 5, "Tasas demasiado altas");
+        stakingTaxRate = _stakingTax;
+        transferTaxRate = _transferTax;
+        emit TaxRateChanged(_stakingTax, _transferTax);
+    }
+
+    function setBurnRate(uint256 _rate) external onlyOwner {
+        require(_rate >= 0 && _rate <= 5, "Tasa de burn invalida (0-5%)");
+        burnRate = _rate;
+    }
+
+    function setReflectionRate(uint256 _rate) external onlyOwner {
+        require(_rate >= 0 && _rate <= 5, "Tasa de reflection invalida (0-5%)");
+        reflectionRate = _rate;
+    }
+
+    function excludeFromReflection(address _address) external onlyOwner {
+        isExcludedFromReflection[_address] = true;
+    }
+
+    function includeInReflection(address _address) external onlyOwner {
+        isExcludedFromReflection[_address] = false;
+    }
+
+    function pause() external onlyOwner {
+        _pause();
+    }
+
+    function unpause() external onlyOwner {
+        _unpause();
+    }
+
+    function setStakingEnabled(bool _enabled) external onlyOwner {
+        stakingEnabled = _enabled;
+    }
+
+    function setGovernanceEnabled(bool _enabled) external onlyOwner {
+        governanceEnabled = _enabled;
+    }
+
+    function setTreasuryAddress(address _newTreasury) external onlyOwner {
+        require(_newTreasury != address(0), "Treasury invalido");
+        treasuryAddress = _newTreasury;
+    }
+
+    // ==================== FUNCIONES OVERRIDE ====================
+
+    function _transfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal override whenNotPaused notBlacklisted(from) notBlacklisted(to) antiWhale(from, to, amount) {
+        require(from != address(0), "ERC20: transfer from the zero address");
+        require(to != address(0), "ERC20: transfer to the zero address");
+        require(amount > 0, "Transfer amount must be greater than 0");
+
+        uint256 totalFee = 0;
+        uint256 burnAmount = 0;
+        uint256 reflectionAmount = 0;
+        uint256 transferTax = 0;
+
+        // Calcular fees solo en transferencias normales (no internas del contrato)
+        if (from != address(this) && to != address(this)) {
+            // Burn
+            burnAmount = (amount * burnRate) / 100;
+            totalFee += burnAmount;
+
+            // Reflection
+            reflectionAmount = (amount * reflectionRate) / 100;
+            totalFee += reflectionAmount;
+
+            // Transfer Tax
+            transferTax = (amount * transferTaxRate) / 100;
+            totalFee += transferTax;
+        }
+
+        uint256 netAmount = amount - totalFee;
+
+        // Transferencia principal
+        super._transfer(from, to, netAmount);
+        
+        // Quemar tokens
+        if (burnAmount > 0) {
+            _burn(from, burnAmount);
+            totalBurned += burnAmount;
+            emit TokensBurned(burnAmount);
+        }
+
+        // Acumular reflection
+        if (reflectionAmount > 0) {
+            accumulatedBurnReflection += reflectionAmount;
+            // Distribuir a holders (simplificado: acumula para reclamo manual)
+            if (!isExcludedFromReflection[to]) {
+                reflectionBalance[to] += reflectionAmount;
+            }
+        }
+
+        // Transferir tax a treasury
+        if (transferTax > 0) {
+            super._transfer(from, treasuryAddress, transferTax);
+        }
+    }
+
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal override whenNotPaused {
+        super._beforeTokenTransfer(from, to, amount);
+    }
+}
